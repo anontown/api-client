@@ -34,20 +34,17 @@ var API = /** @class */ (function () {
     };
     API.prototype.request = function (path, params, token, authUser, recaptcha) {
         var authToken = this.toAuthToken(token);
-        var url = this.config.httpOrigin + name;
-        return rxjs_1.Observable.fromPromise(fetch(url, {
-            method: 'POST',
-            mode: 'cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ authUser: authUser, authToken: authToken, recaptcha: recaptcha, params: params })
-        }))
-            .flatMap(function (r) { return rxjs_1.Observable.fromPromise(r.json().then(function (json) { return ({ status: r.status, json: json }); })); })
-            .map(function (r) {
-            if (r.status === 200) {
-                return r.json;
+        var url = this.config.httpOrigin + path;
+        return rxjs_1.Observable.ajax.post(url, JSON.stringify({ authUser: authUser, authToken: authToken, recaptcha: recaptcha, params: params }), {
+            'Content-Type': 'application/json'
+        })
+            .map(function (res) {
+            var json = JSON.parse(res.responseText);
+            if (res.status === 200) {
+                return json;
             }
             else {
-                return rxjs_1.Observable.throw(new AtError(r.status, r.json.type, r.json.errors));
+                return rxjs_1.Observable.throw(new AtError(res.status, json.type, json.errors));
             }
         });
     };
