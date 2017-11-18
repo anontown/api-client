@@ -53,12 +53,15 @@ export class API {
   private request<T>(path: string, params: any, token: api.Token | null, authUser: AuthUser | null, recaptcha: string | null): Observable<T> {
     let authToken = this.toAuthToken(token);
     let url = this.config.httpOrigin + path;
-    return Observable.ajax.post(url,
-      JSON.stringify({ authUser, authToken, recaptcha, params }),
-      {
+    return Observable.ajax({
+      url,
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json'
-      }
-    )
+      },
+      body: JSON.stringify({ authUser, authToken, recaptcha, params }),
+      crossDomain: true
+    })
       .map(res => {
         const json = JSON.parse(res.responseText);
         if (res.status === 200) {

@@ -35,8 +35,14 @@ var API = /** @class */ (function () {
     API.prototype.request = function (path, params, token, authUser, recaptcha) {
         var authToken = this.toAuthToken(token);
         var url = this.config.httpOrigin + path;
-        return rxjs_1.Observable.ajax.post(url, JSON.stringify({ authUser: authUser, authToken: authToken, recaptcha: recaptcha, params: params }), {
-            'Content-Type': 'application/json'
+        return rxjs_1.Observable.ajax({
+            url: url,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ authUser: authUser, authToken: authToken, recaptcha: recaptcha, params: params }),
+            crossDomain: true
         })
             .map(function (res) {
             var json = JSON.parse(res.responseText);
