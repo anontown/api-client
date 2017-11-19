@@ -63,7 +63,7 @@ export class API {
       crossDomain: true
     })
       .map(res => {
-        const json = JSON.parse(res.responseText);
+        const json = res.response;
         if (res.status === 200) {
           return json;
         } else {

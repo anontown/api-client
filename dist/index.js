@@ -45,7 +45,7 @@ var API = /** @class */ (function () {
             crossDomain: true
         })
             .map(function (res) {
-            var json = JSON.parse(res.responseText);
+            var json = res.response;
             if (res.status === 200) {
                 return json;
             }
