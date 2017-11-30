@@ -161,7 +161,6 @@ var API = /** @class */ (function () {
     API.prototype.updateProfile = function (authToken, params) {
         return this.request('/profile/update', params, authToken, null, null);
     };
-    //[token]
     API.prototype.findTokenOne = function (authToken) {
         return this.request('/token/find/one', null, authToken, null, null);
     };

@@ -183,6 +183,8 @@ export declare class API {
         text: string;
         sn: string;
     }): Observable<api.Profile>;
+    findTokenOne(authToken: TokenMaster): Observable<api.TokenMaster>;
+    findTokenOne(authToken: TokenGeneral): Observable<api.TokenGeneral>;
     findTokenOne(authToken: Token): Observable<api.Token>;
     findTokenAll(authToken: TokenMaster): Observable<api.Token[]>;
     deleteTokenClient(authToken: TokenMaster, params: {

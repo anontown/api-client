@@ -504,6 +504,9 @@ export class API {
       null);
   }
   //[token]
+  findTokenOne(authToken: TokenMaster): Observable<api.TokenMaster>;
+  findTokenOne(authToken: TokenGeneral): Observable<api.TokenGeneral>;
+  findTokenOne(authToken: Token): Observable<api.Token>;
   findTokenOne(authToken: Token) {
     return this.request<api.Token>(
       '/token/find/one',
