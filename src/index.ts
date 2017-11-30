@@ -30,14 +30,28 @@ export interface AuthUser {
   pass: string;
 }
 
+export interface TokenMaster {
+  type: "master";
+  id: string;
+  key: string;
+}
+
+export interface TokenGeneral {
+  type: "general";
+  id: string;
+  key: string;
+}
+
+export type Token = TokenMaster | TokenGeneral;
+
 export class API {
   constructor(private config: APIConfig = defaltConfig) { }
 
-  private toAuthToken(token: api.Token | null): AuthToken | null {
+  private toAuthToken(token: Token | null): AuthToken | null {
     return token !== null ? { id: token.id, key: token.key } : null;
   }
 
-  private stream<T>(name: string, params: any, token: api.Token | null, authUser: AuthUser | null, recaptcha: string | null): Observable<T> {
+  private stream<T>(name: string, params: any, token: Token | null, authUser: AuthUser | null, recaptcha: string | null): Observable<T> {
     let authToken = this.toAuthToken(token);
 
     let query = `name=${encodeURIComponent(name)}&params=${encodeURIComponent(JSON.stringify({
@@ -50,7 +64,7 @@ export class API {
     return Observable.webSocket<T>(this.config.socketOrigin + '?' + query);
   }
 
-  private request<T>(path: string, params: any, token: api.Token | null, authUser: AuthUser | null, recaptcha: string | null): Observable<T> {
+  private request<T>(path: string, params: any, token: Token | null, authUser: AuthUser | null, recaptcha: string | null): Observable<T> {
     let authToken = this.toAuthToken(token);
     let url = this.config.httpOrigin + path;
     return Observable.ajax({
@@ -73,7 +87,7 @@ export class API {
   }
 
   //[res]
-  createRes(authToken: api.Token,
+  createRes(authToken: Token,
     params: {
       topic: string,
       name: string | null,
@@ -89,7 +103,7 @@ export class API {
       null,
       null);
   }
-  findResOne(authToken: api.Token | null,
+  findResOne(authToken: Token | null,
     params: {
       id: string
     }) {
@@ -100,7 +114,7 @@ export class API {
       null,
       null);
   }
-  findResIn(authToken: api.Token | null,
+  findResIn(authToken: Token | null,
     params: {
       ids: string[]
     }) {
@@ -111,7 +125,7 @@ export class API {
       null,
       null);
   }
-  findRes(authToken: api.Token | null,
+  findRes(authToken: Token | null,
     params: {
       topic: string,
       type: 'before' | 'after',
@@ -126,7 +140,7 @@ export class API {
       null,
       null);
   }
-  findResNew(authToken: api.Token | null,
+  findResNew(authToken: Token | null,
     params: {
       topic: string,
       limit: number
@@ -138,7 +152,7 @@ export class API {
       null,
       null);
   }
-  findResHash(authToken: api.Token | null,
+  findResHash(authToken: Token | null,
     params: {
       topic: string,
       hash: string
@@ -150,7 +164,7 @@ export class API {
       null,
       null);
   }
-  findResReply(authToken: api.Token | null,
+  findResReply(authToken: Token | null,
     params: {
       topic: string,
       reply: string
@@ -162,7 +176,7 @@ export class API {
       null,
       null);
   }
-  findResNotice(authToken: api.Token,
+  findResNotice(authToken: Token,
     params: {
       type: 'before' | 'after',
       equal: boolean,
@@ -176,7 +190,7 @@ export class API {
       null,
       null);
   }
-  findResNoticeNew(authToken: api.Token,
+  findResNoticeNew(authToken: Token,
     params: {
       limit: number
     }) {
@@ -187,7 +201,7 @@ export class API {
       null,
       null);
   }
-  uvRes(authToken: api.Token,
+  uvRes(authToken: Token,
     params: {
       id: string
     }) {
@@ -198,7 +212,7 @@ export class API {
       null,
       null);
   }
-  dvRes(authToken: api.Token,
+  dvRes(authToken: Token,
     params: {
       id: string
     }) {
@@ -209,7 +223,7 @@ export class API {
       null,
       null);
   }
-  cvRes(authToken: api.Token,
+  cvRes(authToken: Token,
     params: {
       id: string
     }) {
@@ -220,7 +234,7 @@ export class API {
       null,
       null);
   }
-  delRes(authToken: api.Token,
+  delRes(authToken: Token,
     params: {
       id: string
     }) {
@@ -233,7 +247,7 @@ export class API {
   }
 
   //[topic]
-  createTopicNormal(authToken: api.Token,
+  createTopicNormal(authToken: Token,
     params: {
       title: string,
       tags: string[],
@@ -247,7 +261,7 @@ export class API {
       null);
   }
 
-  createTopicOne(authToken: api.Token,
+  createTopicOne(authToken: Token,
     params: {
       title: string,
       tags: string[],
@@ -261,7 +275,7 @@ export class API {
       null);
   }
 
-  createTopicFork(authToken: api.Token,
+  createTopicFork(authToken: Token,
     params: {
       title: string,
       parent: string
@@ -335,7 +349,7 @@ export class API {
       null);
   }
 
-  updateTopic(authToken: api.Token,
+  updateTopic(authToken: Token,
     params: {
       id: string,
       title: string,
@@ -384,7 +398,7 @@ export class API {
       null);
   }
   //[msg]
-  findMsgOne(authToken: api.Token,
+  findMsgOne(authToken: Token,
     params: {
       id: string
     }) {
@@ -395,7 +409,7 @@ export class API {
       null,
       null);
   }
-  findMsgIn(authToken: api.Token,
+  findMsgIn(authToken: Token,
     params: {
       ids: string[]
     }) {
@@ -406,7 +420,7 @@ export class API {
       null,
       null);
   }
-  findMsg(authToken: api.Token,
+  findMsg(authToken: Token,
     params: {
       type: 'before' | 'after',
       equal: boolean,
@@ -420,7 +434,7 @@ export class API {
       null,
       null);
   }
-  findMsgNew(authToken: api.Token,
+  findMsgNew(authToken: Token,
     params: {
       limit: number
     }) {
@@ -432,7 +446,7 @@ export class API {
       null);
   }
   //[profile]
-  createProfile(authToken: api.Token,
+  createProfile(authToken: Token,
     params: {
       name: string,
       text: string,
@@ -445,7 +459,7 @@ export class API {
       null,
       null);
   }
-  findProfileOne(authToken: api.Token | null,
+  findProfileOne(authToken: Token | null,
     params: {
       id: string
     }) {
@@ -456,7 +470,7 @@ export class API {
       null,
       null);
   }
-  findProfileIn(authToken: api.Token | null,
+  findProfileIn(authToken: Token | null,
     params: {
       ids: string[]
     }) {
@@ -467,7 +481,7 @@ export class API {
       null,
       null);
   }
-  findProfileAll(authToken: api.Token) {
+  findProfileAll(authToken: Token) {
     return this.request<api.Profile[]>(
       '/profile/find/all',
       null,
@@ -475,7 +489,7 @@ export class API {
       null,
       null);
   }
-  updateProfile(authToken: api.Token,
+  updateProfile(authToken: Token,
     params: {
       id: string,
       name: string,
@@ -490,15 +504,15 @@ export class API {
       null);
   }
   //[token]
-  findTokenOne(authToken: api.Token) {
-    return this.request<api.TokenMaster>(
+  findTokenOne(authToken: Token) {
+    return this.request<api.Token>(
       '/token/find/one',
       null,
       authToken,
       null,
       null);
   }
-  findTokenAll(authToken: api.TokenMaster) {
+  findTokenAll(authToken: TokenMaster) {
     return this.request<api.Token[]>(
       '/token/find/all',
       null,
@@ -506,7 +520,7 @@ export class API {
       null,
       null);
   }
-  deleteTokenClient(authToken: api.TokenMaster, params: { client: string }) {
+  deleteTokenClient(authToken: TokenMaster, params: { client: string }) {
     return this.request<void>(
       '/token/client/delete',
       params,
@@ -514,7 +528,7 @@ export class API {
       null,
       null);
   }
-  findTokenClientAll(authToken: api.Token) {
+  findTokenClientAll(authToken: Token) {
     return this.request<api.Client[]>(
       '/token/find/client/all',
       null,
@@ -530,7 +544,7 @@ export class API {
       authUser,
       null);
   }
-  createTokenGeneral(authToken: api.TokenMaster,
+  createTokenGeneral(authToken: TokenMaster,
     params: {
       client: string
     }) {
@@ -541,7 +555,7 @@ export class API {
       null,
       null);
   }
-  setTokenStorage(authToken: api.Token,
+  setTokenStorage(authToken: Token,
     params: {
       name: string,
       value: string
@@ -553,7 +567,7 @@ export class API {
       null,
       null);
   }
-  getTokenStorage(authToken: api.Token,
+  getTokenStorage(authToken: Token,
     params: {
       name: string
     }) {
@@ -564,7 +578,7 @@ export class API {
       null,
       null);
   }
-  delTokenStorage(authToken: api.Token,
+  delTokenStorage(authToken: Token,
     params: {
       name: string
     }) {
@@ -576,7 +590,7 @@ export class API {
       null);
   }
 
-  listTokenStorage(authToken: api.Token) {
+  listTokenStorage(authToken: Token) {
     return this.request<string[]>(
       '/token/storage/list',
       null,
@@ -584,7 +598,7 @@ export class API {
       null,
       null);
   }
-  createTokenReq(authToken: api.Token) {
+  createTokenReq(authToken: Token) {
     return this.request<api.TokenReq>(
       '/token/req/create',
       null,
@@ -652,7 +666,7 @@ export class API {
       null);
   }
   //[client]
-  createClient(authToken: api.TokenMaster,
+  createClient(authToken: TokenMaster,
     params: {
       name: string,
       url: string
@@ -664,7 +678,7 @@ export class API {
       null,
       null);
   }
-  updateClient(authToken: api.TokenMaster,
+  updateClient(authToken: TokenMaster,
     params: {
       id: string,
       name: string,
@@ -677,7 +691,7 @@ export class API {
       null,
       null);
   }
-  findClientOne(authToken: api.TokenMaster | null,
+  findClientOne(authToken: TokenMaster | null,
     params: {
       id: string
     }) {
@@ -688,7 +702,7 @@ export class API {
       null,
       null);
   }
-  findClientIn(authToken: api.TokenMaster | null,
+  findClientIn(authToken: TokenMaster | null,
     params: {
       ids: string[]
     }) {
@@ -699,7 +713,7 @@ export class API {
       null,
       null);
   }
-  findClientAll(authToken: api.TokenMaster) {
+  findClientAll(authToken: TokenMaster) {
     return this.request<api.Client[]>(
       '/client/find/all',
       null,
@@ -717,7 +731,7 @@ export class API {
       null);
   }
 
-  streamUpdateTopic(authToken: api.Token | null,
+  streamUpdateTopic(authToken: Token | null,
     params: {
       id: string
     }) {

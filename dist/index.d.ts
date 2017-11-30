@@ -25,13 +25,24 @@ export interface AuthUser {
     id: string;
     pass: string;
 }
+export interface TokenMaster {
+    type: "master";
+    id: string;
+    key: string;
+}
+export interface TokenGeneral {
+    type: "general";
+    id: string;
+    key: string;
+}
+export declare type Token = TokenMaster | TokenGeneral;
 export declare class API {
     private config;
     constructor(config?: APIConfig);
     private toAuthToken(token);
     private stream<T>(name, params, token, authUser, recaptcha);
     private request<T>(path, params, token, authUser, recaptcha);
-    createRes(authToken: api.Token, params: {
+    createRes(authToken: Token, params: {
         topic: string;
         name: string | null;
         text: string;
@@ -39,63 +50,63 @@ export declare class API {
         profile: string | null;
         age: boolean;
     }): Observable<api.Res>;
-    findResOne(authToken: api.Token | null, params: {
+    findResOne(authToken: Token | null, params: {
         id: string;
     }): Observable<api.Res>;
-    findResIn(authToken: api.Token | null, params: {
+    findResIn(authToken: Token | null, params: {
         ids: string[];
     }): Observable<api.Res[]>;
-    findRes(authToken: api.Token | null, params: {
+    findRes(authToken: Token | null, params: {
         topic: string;
         type: 'before' | 'after';
         equal: boolean;
         date: string;
         limit: number;
     }): Observable<api.Res[]>;
-    findResNew(authToken: api.Token | null, params: {
+    findResNew(authToken: Token | null, params: {
         topic: string;
         limit: number;
     }): Observable<api.Res[]>;
-    findResHash(authToken: api.Token | null, params: {
+    findResHash(authToken: Token | null, params: {
         topic: string;
         hash: string;
     }): Observable<api.Res[]>;
-    findResReply(authToken: api.Token | null, params: {
+    findResReply(authToken: Token | null, params: {
         topic: string;
         reply: string;
     }): Observable<api.Res[]>;
-    findResNotice(authToken: api.Token, params: {
+    findResNotice(authToken: Token, params: {
         type: 'before' | 'after';
         equal: boolean;
         date: string;
         limit: number;
     }): Observable<api.Res[]>;
-    findResNoticeNew(authToken: api.Token, params: {
+    findResNoticeNew(authToken: Token, params: {
         limit: number;
     }): Observable<api.Res[]>;
-    uvRes(authToken: api.Token, params: {
+    uvRes(authToken: Token, params: {
         id: string;
     }): Observable<api.Res>;
-    dvRes(authToken: api.Token, params: {
+    dvRes(authToken: Token, params: {
         id: string;
     }): Observable<api.Res>;
-    cvRes(authToken: api.Token, params: {
+    cvRes(authToken: Token, params: {
         id: string;
     }): Observable<api.Res>;
-    delRes(authToken: api.Token, params: {
+    delRes(authToken: Token, params: {
         id: string;
     }): Observable<api.Res>;
-    createTopicNormal(authToken: api.Token, params: {
+    createTopicNormal(authToken: Token, params: {
         title: string;
         tags: string[];
         text: string;
     }): Observable<api.TopicNormal>;
-    createTopicOne(authToken: api.Token, params: {
+    createTopicOne(authToken: Token, params: {
         title: string;
         tags: string[];
         text: string;
     }): Observable<api.TopicOne>;
-    createTopicFork(authToken: api.Token, params: {
+    createTopicFork(authToken: Token, params: {
         title: string;
         parent: string;
     }): Observable<api.TopicFork>;
@@ -124,7 +135,7 @@ export declare class API {
         limit: number;
         activeOnly: boolean;
     }): Observable<api.TopicFork[]>;
-    updateTopic(authToken: api.Token, params: {
+    updateTopic(authToken: Token, params: {
         id: string;
         title: string;
         tags: string[];
@@ -139,61 +150,61 @@ export declare class API {
     findHistoryAll(params: {
         topic: string;
     }): Observable<api.History[]>;
-    findMsgOne(authToken: api.Token, params: {
+    findMsgOne(authToken: Token, params: {
         id: string;
     }): Observable<api.Msg>;
-    findMsgIn(authToken: api.Token, params: {
+    findMsgIn(authToken: Token, params: {
         ids: string[];
     }): Observable<api.Msg[]>;
-    findMsg(authToken: api.Token, params: {
+    findMsg(authToken: Token, params: {
         type: 'before' | 'after';
         equal: boolean;
         date: string;
         limit: number;
     }): Observable<api.Msg[]>;
-    findMsgNew(authToken: api.Token, params: {
+    findMsgNew(authToken: Token, params: {
         limit: number;
     }): Observable<api.Msg[]>;
-    createProfile(authToken: api.Token, params: {
+    createProfile(authToken: Token, params: {
         name: string;
         text: string;
         sn: string;
     }): Observable<api.Profile>;
-    findProfileOne(authToken: api.Token | null, params: {
+    findProfileOne(authToken: Token | null, params: {
         id: string;
     }): Observable<api.Profile>;
-    findProfileIn(authToken: api.Token | null, params: {
+    findProfileIn(authToken: Token | null, params: {
         ids: string[];
     }): Observable<api.Profile[]>;
-    findProfileAll(authToken: api.Token): Observable<api.Profile[]>;
-    updateProfile(authToken: api.Token, params: {
+    findProfileAll(authToken: Token): Observable<api.Profile[]>;
+    updateProfile(authToken: Token, params: {
         id: string;
         name: string;
         text: string;
         sn: string;
     }): Observable<api.Profile>;
-    findTokenOne(authToken: api.Token): Observable<api.TokenMaster>;
-    findTokenAll(authToken: api.TokenMaster): Observable<api.Token[]>;
-    deleteTokenClient(authToken: api.TokenMaster, params: {
+    findTokenOne(authToken: Token): Observable<api.Token>;
+    findTokenAll(authToken: TokenMaster): Observable<api.Token[]>;
+    deleteTokenClient(authToken: TokenMaster, params: {
         client: string;
     }): Observable<void>;
-    findTokenClientAll(authToken: api.Token): Observable<api.Client[]>;
+    findTokenClientAll(authToken: Token): Observable<api.Client[]>;
     createTokenMaster(authUser: AuthUser): Observable<api.TokenMaster>;
-    createTokenGeneral(authToken: api.TokenMaster, params: {
+    createTokenGeneral(authToken: TokenMaster, params: {
         client: string;
     }): Observable<api.TokenGeneral>;
-    setTokenStorage(authToken: api.Token, params: {
+    setTokenStorage(authToken: Token, params: {
         name: string;
         value: string;
     }): Observable<void>;
-    getTokenStorage(authToken: api.Token, params: {
+    getTokenStorage(authToken: Token, params: {
         name: string;
     }): Observable<string>;
-    delTokenStorage(authToken: api.Token, params: {
+    delTokenStorage(authToken: Token, params: {
         name: string;
     }): Observable<void>;
-    listTokenStorage(authToken: api.Token): Observable<string[]>;
-    createTokenReq(authToken: api.Token): Observable<api.TokenReq>;
+    listTokenStorage(authToken: Token): Observable<string[]>;
+    createTokenReq(authToken: Token): Observable<api.TokenReq>;
     findTokenReq(params: {
         id: string;
         key: string;
@@ -212,24 +223,24 @@ export declare class API {
         pass: string;
         sn: string;
     }): Observable<api.User>;
-    createClient(authToken: api.TokenMaster, params: {
+    createClient(authToken: TokenMaster, params: {
         name: string;
         url: string;
     }): Observable<api.Client>;
-    updateClient(authToken: api.TokenMaster, params: {
+    updateClient(authToken: TokenMaster, params: {
         id: string;
         name: string;
         url: string;
     }): Observable<api.Client>;
-    findClientOne(authToken: api.TokenMaster | null, params: {
+    findClientOne(authToken: TokenMaster | null, params: {
         id: string;
     }): Observable<api.Client>;
-    findClientIn(authToken: api.TokenMaster | null, params: {
+    findClientIn(authToken: TokenMaster | null, params: {
         ids: string[];
     }): Observable<api.Client[]>;
-    findClientAll(authToken: api.TokenMaster): Observable<api.Client[]>;
+    findClientAll(authToken: TokenMaster): Observable<api.Client[]>;
     authUser(authUser: AuthUser): Observable<void>;
-    streamUpdateTopic(authToken: api.Token | null, params: {
+    streamUpdateTopic(authToken: Token | null, params: {
         id: string;
     }): Observable<{
         res: api.Res;
