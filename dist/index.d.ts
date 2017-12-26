@@ -45,7 +45,7 @@ export declare class API {
     createRes(authToken: Token, params: {
         topic: string;
         name: string | null;
-        text: string;
+        body: string;
         reply: string | null;
         profile: string | null;
         age: boolean;
@@ -99,12 +99,12 @@ export declare class API {
     createTopicNormal(authToken: Token, params: {
         title: string;
         tags: string[];
-        text: string;
+        body: string;
     }): Observable<api.TopicNormal>;
     createTopicOne(authToken: Token, params: {
         title: string;
         tags: string[];
-        text: string;
+        body: string;
     }): Observable<api.TopicOne>;
     createTopicFork(authToken: Token, params: {
         title: string;
@@ -123,7 +123,7 @@ export declare class API {
         count: number;
     }[]>;
     findTopic(params: {
-        title: string;
+        title: string[];
         tags: string[];
         skip: number;
         limit: number;
@@ -139,7 +139,7 @@ export declare class API {
         id: string;
         title: string;
         tags: string[];
-        text: string;
+        body: string;
     }): Observable<api.TopicNormal>;
     findHistoryOne(params: {
         id: string;
@@ -167,7 +167,7 @@ export declare class API {
     }): Observable<api.Msg[]>;
     createProfile(authToken: Token, params: {
         name: string;
-        text: string;
+        body: string;
         sn: string;
     }): Observable<api.Profile>;
     findProfileOne(authToken: Token | null, params: {
@@ -180,7 +180,7 @@ export declare class API {
     updateProfile(authToken: Token, params: {
         id: string;
         name: string;
-        text: string;
+        body: string;
         sn: string;
     }): Observable<api.Profile>;
     findTokenOne(authToken: TokenMaster): Observable<api.TokenMaster>;

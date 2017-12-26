@@ -91,7 +91,7 @@ export class API {
     params: {
       topic: string,
       name: string | null,
-      text: string,
+      body: string,
       reply: string | null,
       profile: string | null,
       age: boolean
@@ -251,7 +251,7 @@ export class API {
     params: {
       title: string,
       tags: string[],
-      text: string
+      body: string
     }) {
     return this.request<api.TopicNormal>(
       '/topic/create/normal',
@@ -265,7 +265,7 @@ export class API {
     params: {
       title: string,
       tags: string[],
-      text: string
+      body: string
     }) {
     return this.request<api.TopicOne>(
       '/topic/create/one',
@@ -320,7 +320,7 @@ export class API {
   }
   findTopic(
     params: {
-      title: string,
+      title: string[],
       tags: string[],
       skip: number,
       limit: number,
@@ -354,7 +354,7 @@ export class API {
       id: string,
       title: string,
       tags: string[],
-      text: string
+      body: string
     }) {
     return this.request<api.TopicNormal>(
       '/topic/update',
@@ -449,7 +449,7 @@ export class API {
   createProfile(authToken: Token,
     params: {
       name: string,
-      text: string,
+      body: string,
       sn: string
     }) {
     return this.request<api.Profile>(
@@ -493,7 +493,7 @@ export class API {
     params: {
       id: string,
       name: string,
-      text: string,
+      body: string,
       sn: string
     }) {
     return this.request<api.Profile>(
