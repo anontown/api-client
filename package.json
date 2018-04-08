@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/anontown/api-client#readme",
   "dependencies": {
-    "@anontown/api-types": "^1.2.0",
+    "@anontown/api-types": "^1.2.1",
     "rxjs": "^5.4.3"
   },
   "devDependencies": {

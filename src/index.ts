@@ -91,7 +91,7 @@ export class API {
     params: {
       topic: string,
       name: string | null,
-      body: string,
+      text: string,
       reply: string | null,
       profile: string | null,
       age: boolean
@@ -154,7 +154,6 @@ export class API {
   }
   findResHash(authToken: Token | null,
     params: {
-      topic: string,
       hash: string
     }) {
     return this.request<api.Res[]>(
@@ -166,7 +165,6 @@ export class API {
   }
   findResReply(authToken: Token | null,
     params: {
-      topic: string,
       reply: string
     }) {
     return this.request<api.Res[]>(
@@ -251,7 +249,7 @@ export class API {
     params: {
       title: string,
       tags: string[],
-      body: string
+      text: string
     }) {
     return this.request<api.TopicNormal>(
       '/topic/create/normal',
@@ -265,7 +263,7 @@ export class API {
     params: {
       title: string,
       tags: string[],
-      body: string
+      text: string
     }) {
     return this.request<api.TopicOne>(
       '/topic/create/one',
@@ -320,7 +318,7 @@ export class API {
   }
   findTopic(
     params: {
-      title: string[],
+      title: string,
       tags: string[],
       skip: number,
       limit: number,
@@ -354,7 +352,7 @@ export class API {
       id: string,
       title: string,
       tags: string[],
-      body: string
+      text: string
     }) {
     return this.request<api.TopicNormal>(
       '/topic/update',
@@ -449,7 +447,7 @@ export class API {
   createProfile(authToken: Token,
     params: {
       name: string,
-      body: string,
+      text: string,
       sn: string
     }) {
     return this.request<api.Profile>(
@@ -493,7 +491,7 @@ export class API {
     params: {
       id: string,
       name: string,
-      body: string,
+      text: string,
       sn: string
     }) {
     return this.request<api.Profile>(
@@ -531,14 +529,6 @@ export class API {
       null,
       null);
   }
-  findTokenClientAll(authToken: Token) {
-    return this.request<api.Client[]>(
-      '/token/find/client/all',
-      null,
-      authToken,
-      null,
-      null);
-  }
   createTokenMaster(authUser: AuthUser) {
     return this.request<api.TokenMaster>(
       '/token/create/master',
@@ -558,44 +548,44 @@ export class API {
       null,
       null);
   }
-  setTokenStorage(authToken: Token,
+  setStorage(authToken: Token,
     params: {
-      name: string,
+      key: string,
       value: string
     }) {
     return this.request<void>(
-      '/token/storage/set',
+      '/storage/set',
       params,
       authToken,
       null,
       null);
   }
-  getTokenStorage(authToken: Token,
+  getStorage(authToken: Token,
     params: {
-      name: string
+      key: string
     }) {
     return this.request<string>(
-      '/token/storage/get',
+      '/storage/get',
       params,
       authToken,
       null,
       null);
   }
-  delTokenStorage(authToken: Token,
+  delStorage(authToken: Token,
     params: {
-      name: string
+      key: string
     }) {
     return this.request<void>(
-      '/token/storage/delete',
+      '/storage/delete',
       params,
       authToken,
       null,
       null);
   }
 
-  listTokenStorage(authToken: Token) {
+  listStorage(authToken: Token) {
     return this.request<string[]>(
-      '/token/storage/list',
+      '/storage/list',
       null,
       authToken,
       null,
