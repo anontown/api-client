@@ -170,26 +170,23 @@ var API = /** @class */ (function () {
     API.prototype.deleteTokenClient = function (authToken, params) {
         return this.request('/token/client/delete', params, authToken, null, null);
     };
-    API.prototype.findTokenClientAll = function (authToken) {
-        return this.request('/token/find/client/all', null, authToken, null, null);
-    };
     API.prototype.createTokenMaster = function (authUser) {
         return this.request('/token/create/master', null, null, authUser, null);
     };
     API.prototype.createTokenGeneral = function (authToken, params) {
         return this.request('/token/create/general', params, authToken, null, null);
     };
-    API.prototype.setTokenStorage = function (authToken, params) {
-        return this.request('/token/storage/set', params, authToken, null, null);
+    API.prototype.setStorage = function (authToken, params) {
+        return this.request('/storage/set', params, authToken, null, null);
     };
-    API.prototype.getTokenStorage = function (authToken, params) {
-        return this.request('/token/storage/get', params, authToken, null, null);
+    API.prototype.getStorage = function (authToken, params) {
+        return this.request('/storage/get', params, authToken, null, null);
     };
-    API.prototype.delTokenStorage = function (authToken, params) {
-        return this.request('/token/storage/delete', params, authToken, null, null);
+    API.prototype.delStorage = function (authToken, params) {
+        return this.request('/storage/delete', params, authToken, null, null);
     };
-    API.prototype.listTokenStorage = function (authToken) {
-        return this.request('/token/storage/list', null, authToken, null, null);
+    API.prototype.listStorage = function (authToken) {
+        return this.request('/storage/list', null, authToken, null, null);
     };
     API.prototype.createTokenReq = function (authToken) {
         return this.request('/token/req/create', null, authToken, null, null);
