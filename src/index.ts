@@ -64,7 +64,7 @@ export class API {
     return Observable.webSocket<T>(this.config.socketOrigin + '?' + query);
   }
 
-  private request<T>(path: string, params: any, token: Token | null, authUser: AuthUser | null, recaptcha: string | null): Observable<T> {
+  private request<T>(path: string, params: any, token: Token | null, authUser: AuthUser | null, recaptcha: string | null): Promise<T> {
     let authToken = this.toAuthToken(token);
     let url = this.config.httpOrigin + path;
     return Observable.ajax({
@@ -83,7 +83,8 @@ export class API {
         } else {
           return Observable.throw(new AtError(res.status, json.type, json.errors));
         }
-      });
+      })
+      .toPromise();
   }
 
   //[res]
@@ -502,9 +503,9 @@ export class API {
       null);
   }
   //[token]
-  findTokenOne(authToken: TokenMaster): Observable<api.TokenMaster>;
-  findTokenOne(authToken: TokenGeneral): Observable<api.TokenGeneral>;
-  findTokenOne(authToken: Token): Observable<api.Token>;
+  findTokenOne(authToken: TokenMaster): Promise<api.TokenMaster>;
+  findTokenOne(authToken: TokenGeneral): Promise<api.TokenGeneral>;
+  findTokenOne(authToken: Token): Promise<api.Token>;
   findTokenOne(authToken: Token) {
     return this.request<api.Token>(
       '/token/find/one',

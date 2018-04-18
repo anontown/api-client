@@ -52,7 +52,8 @@ var API = /** @class */ (function () {
             else {
                 return rxjs_1.Observable.throw(new AtError(res.status, json.type, json.errors));
             }
-        });
+        })
+            .toPromise();
     };
     //[res]
     API.prototype.createRes = function (authToken, params) {
