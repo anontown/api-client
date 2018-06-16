@@ -128,73 +128,21 @@ export class API {
   }
   findRes(authToken: Token | null,
     params: {
-      topic: string,
-      type: 'before' | 'after',
-      equal: boolean,
+      type: "gt" | "lt" | "gte" | "lte",
       date: string,
-      limit: number
+      limit: number,
+      query: {
+        topic?: string;
+        notice?: boolean;
+        hash?: string;
+        reply?: string;
+        profile?: string;
+        self?: boolean;
+        text?: string;
+      }
     }) {
     return this.request<api.Res[]>(
       '/res/find',
-      params,
-      authToken,
-      null,
-      null);
-  }
-  findResNew(authToken: Token | null,
-    params: {
-      topic: string,
-      limit: number
-    }) {
-    return this.request<api.Res[]>(
-      '/res/find/new',
-      params,
-      authToken,
-      null,
-      null);
-  }
-  findResHash(authToken: Token | null,
-    params: {
-      hash: string
-    }) {
-    return this.request<api.Res[]>(
-      '/res/find/hash',
-      params,
-      authToken,
-      null,
-      null);
-  }
-  findResReply(authToken: Token | null,
-    params: {
-      reply: string
-    }) {
-    return this.request<api.Res[]>(
-      '/res/find/reply',
-      params,
-      authToken,
-      null,
-      null);
-  }
-  findResNotice(authToken: Token,
-    params: {
-      type: 'before' | 'after',
-      equal: boolean,
-      date: string,
-      limit: number
-    }) {
-    return this.request<api.Res[]>(
-      '/res/find/notice',
-      params,
-      authToken,
-      null,
-      null);
-  }
-  findResNoticeNew(authToken: Token,
-    params: {
-      limit: number
-    }) {
-    return this.request<api.Res[]>(
-      '/res/find/notice/new',
       params,
       authToken,
       null,
@@ -421,24 +369,12 @@ export class API {
   }
   findMsg(authToken: Token,
     params: {
-      type: 'before' | 'after',
-      equal: boolean,
+      type: "gt" | "lt" | "gte" | "lte",
       date: string,
       limit: number
     }) {
     return this.request<api.Msg[]>(
       '/msg/find',
-      params,
-      authToken,
-      null,
-      null);
-  }
-  findMsgNew(authToken: Token,
-    params: {
-      limit: number
-    }) {
-    return this.request<api.Msg[]>(
-      '/msg/find/new',
       params,
       authToken,
       null,

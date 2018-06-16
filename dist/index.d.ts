@@ -57,30 +57,18 @@ export declare class API {
         ids: string[];
     }): Promise<api.Res[]>;
     findRes(authToken: Token | null, params: {
-        topic: string;
-        type: 'before' | 'after';
-        equal: boolean;
+        type: "gt" | "lt" | "gte" | "lte";
         date: string;
         limit: number;
-    }): Promise<api.Res[]>;
-    findResNew(authToken: Token | null, params: {
-        topic: string;
-        limit: number;
-    }): Promise<api.Res[]>;
-    findResHash(authToken: Token | null, params: {
-        hash: string;
-    }): Promise<api.Res[]>;
-    findResReply(authToken: Token | null, params: {
-        reply: string;
-    }): Promise<api.Res[]>;
-    findResNotice(authToken: Token, params: {
-        type: 'before' | 'after';
-        equal: boolean;
-        date: string;
-        limit: number;
-    }): Promise<api.Res[]>;
-    findResNoticeNew(authToken: Token, params: {
-        limit: number;
+        query: {
+            topic?: string;
+            notice?: boolean;
+            hash?: string;
+            reply?: string;
+            profile?: string;
+            self?: boolean;
+            text?: string;
+        };
     }): Promise<api.Res[]>;
     uvRes(authToken: Token, params: {
         id: string;
@@ -155,12 +143,8 @@ export declare class API {
         ids: string[];
     }): Promise<api.Msg[]>;
     findMsg(authToken: Token, params: {
-        type: 'before' | 'after';
-        equal: boolean;
+        type: "gt" | "lt" | "gte" | "lte";
         date: string;
-        limit: number;
-    }): Promise<api.Msg[]>;
-    findMsgNew(authToken: Token, params: {
         limit: number;
     }): Promise<api.Msg[]>;
     createProfile(authToken: Token, params: {

@@ -68,21 +68,6 @@ var API = /** @class */ (function () {
     API.prototype.findRes = function (authToken, params) {
         return this.request('/res/find', params, authToken, null, null);
     };
-    API.prototype.findResNew = function (authToken, params) {
-        return this.request('/res/find/new', params, authToken, null, null);
-    };
-    API.prototype.findResHash = function (authToken, params) {
-        return this.request('/res/find/hash', params, authToken, null, null);
-    };
-    API.prototype.findResReply = function (authToken, params) {
-        return this.request('/res/find/reply', params, authToken, null, null);
-    };
-    API.prototype.findResNotice = function (authToken, params) {
-        return this.request('/res/find/notice', params, authToken, null, null);
-    };
-    API.prototype.findResNoticeNew = function (authToken, params) {
-        return this.request('/res/find/notice/new', params, authToken, null, null);
-    };
     API.prototype.uvRes = function (authToken, params) {
         return this.request('/res/uv', params, authToken, null, null);
     };
@@ -142,9 +127,6 @@ var API = /** @class */ (function () {
     };
     API.prototype.findMsg = function (authToken, params) {
         return this.request('/msg/find', params, authToken, null, null);
-    };
-    API.prototype.findMsgNew = function (authToken, params) {
-        return this.request('/msg/find/new', params, authToken, null, null);
     };
     //[profile]
     API.prototype.createProfile = function (authToken, params) {
