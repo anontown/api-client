@@ -39,9 +39,9 @@ export declare type Token = TokenMaster | TokenGeneral;
 export declare class API {
     private config;
     constructor(config?: APIConfig);
-    private toAuthToken(token);
-    private stream<T>(name, params, token, authUser, recaptcha);
-    private request<T>(path, params, token, authUser, recaptcha);
+    private toAuthToken;
+    private stream;
+    private request;
     createRes(authToken: Token, params: {
         topic: string;
         name: string | null;
