@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
+var webSocket_1 = require("rxjs/webSocket");
+var ajax_1 = require("rxjs/ajax");
+var op = require("rxjs/operators");
 var AtError = /** @class */ (function () {
     function AtError(statusCode, type, errors) {
         this.statusCode = statusCode;
@@ -30,12 +33,12 @@ var API = /** @class */ (function () {
             recaptcha: recaptcha,
             params: params
         }));
-        return rxjs_1.Observable.webSocket(this.config.socketOrigin + '?' + query);
+        return webSocket_1.webSocket(this.config.socketOrigin + '?' + query);
     };
     API.prototype.request = function (path, params, token, authUser, recaptcha) {
         var authToken = this.toAuthToken(token);
         var url = this.config.httpOrigin + path;
-        return rxjs_1.Observable.ajax({
+        return ajax_1.ajax({
             url: url,
             method: 'POST',
             headers: {
@@ -44,7 +47,7 @@ var API = /** @class */ (function () {
             body: JSON.stringify({ authUser: authUser, authToken: authToken, recaptcha: recaptcha, params: params }),
             crossDomain: true
         })
-            .map(function (res) {
+            .pipe(op.map(function (res) {
             var json = res.response;
             if (res.status === 200) {
                 return json;
@@ -52,7 +55,7 @@ var API = /** @class */ (function () {
             else {
                 return rxjs_1.Observable.throw(new AtError(res.status, json.type, json.errors));
             }
-        })
+        }))
             .toPromise();
     };
     //[res]

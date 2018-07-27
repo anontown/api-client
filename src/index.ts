@@ -1,5 +1,9 @@
 import * as api from '@anontown/api-types';
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
+import { webSocket } from 'rxjs/webSocket';
+import { ajax } from 'rxjs/ajax';
+import * as op from 'rxjs/operators';
+
 export class AtError {
   constructor(public statusCode: number,
     public type: string,
@@ -61,13 +65,13 @@ export class API {
       params
     }))}`;
 
-    return Observable.webSocket<T>(this.config.socketOrigin + '?' + query);
+    return webSocket<T>(this.config.socketOrigin + '?' + query);
   }
 
   private request<T>(path: string, params: any, token: Token | null, authUser: AuthUser | null, recaptcha: string | null): Promise<T> {
     let authToken = this.toAuthToken(token);
     let url = this.config.httpOrigin + path;
-    return Observable.ajax({
+    return ajax({
       url,
       method: 'POST',
       headers: {
@@ -76,14 +80,14 @@ export class API {
       body: JSON.stringify({ authUser, authToken, recaptcha, params }),
       crossDomain: true
     })
-      .map(res => {
+      .pipe(op.map(res => {
         const json = res.response;
         if (res.status === 200) {
           return json;
         } else {
           return Observable.throw(new AtError(res.status, json.type, json.errors));
         }
-      })
+      }))
       .toPromise();
   }
 
